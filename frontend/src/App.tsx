@@ -12,11 +12,12 @@ import {
   ProductManagement,
   Products,
   TransactionManagement,
+  Transaction,
+  Piecharts,
+  Search,
 } from "./pages";
 import { Suspense } from "react";
-import { Loader } from "./components";
-import Transactions from "./pages/admin/Transaction";
-import PieCharts from "./pages/admin/charts/Piecharts";
+import { Loader, UserLayout } from "./components";
 
 const App = () => {
   return (
@@ -24,21 +25,24 @@ const App = () => {
       <Suspense fallback={<Loader />}>
         <Routes>
           {/* Public Routes */}
-          <Route path="/" element={<Home />} />
-          <Route path="/cart" element={<Cart />} />
+          <Route path="/" element={<UserLayout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/search" element={<Search />} />
+          </Route>
 
           {/* Admin Routes with Layout */}
           <Route path="/admin" element={<AdminLayout />}>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="product" element={<Products />} />
-            <Route path="transactions" element={<Transactions />} />
+            <Route path="transactions" element={<Transaction />} />
             <Route path="customers" element={<Customers />} />
             <Route path="product/new" element={<NewProducts />} />
             <Route path="product/:id" element={<ProductManagement />} />
             <Route path="transaction/:id" element={<TransactionManagement />} />
             <Route path="chart/bar" element={<Barcharts />} />
             <Route path="chart/line" element={<Linecharts />} />
-            <Route path="chart/pie" element={<PieCharts />} />
+            <Route path="chart/pie" element={<Piecharts />} />
             <Route path="app/coupon" element={<Coupon />} />
           </Route>
         </Routes>

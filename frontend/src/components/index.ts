@@ -1,10 +1,13 @@
-import Loader from "./Loader";
-import AdminSidebar from "./admin/AdminSidebar";
-import CategoryItem from "./admin/CategoryItem";
-import DashboardTable from "./admin/DashboardTable";
+import { lazy } from "react";
 import TableHOC from "./admin/TableHOC";
-import WidgetItem from "./admin/WidgetItem";
 
+const Header = lazy(() => import("./Header"));
+const Loader = lazy(() => import("./Loader"));
+const AdminSidebar = lazy(() => import("./admin/AdminSidebar"));
+const CategoryItem = lazy(() => import("./admin/CategoryItem"));
+const DashboardTable = lazy(() => import("./admin/DashboardTable"));
+const WidgetItem = lazy(() => import("./admin/WidgetItem"));
+const UserLayout = lazy(() => import("./UserLayout"));
 
 export {
   Loader,
@@ -13,4 +16,6 @@ export {
   DashboardTable,
   TableHOC,
   WidgetItem,
+  Header,
+  UserLayout,
 };
