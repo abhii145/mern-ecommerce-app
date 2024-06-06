@@ -15,6 +15,7 @@ import {
   Transaction,
   Piecharts,
   Search,
+  Shipping,
 } from "./pages";
 import { Suspense } from "react";
 import { Loader, UserLayout } from "./components";
@@ -32,6 +33,9 @@ const App = () => {
             <Route path="/search" element={<Search />} />
             <Route path="/product/:id" element={<ProductDetails />} />
           </Route>
+
+          {/* LoggedIn user Routes */}
+          <Route path="/shipping" element={<Shipping />} />
 
           {/* Admin Routes with Layout */}
           <Route path="/admin" element={<AdminLayout />}>

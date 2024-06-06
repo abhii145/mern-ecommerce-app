@@ -3,6 +3,7 @@ import { lazy } from "react";
 const Home = lazy(() => import("./Home"));
 const Search = lazy(() => import("./Search"));
 const Cart = lazy(() => import("./Cart"));
+const Shipping = lazy(() => import("./Shipping"));
 
 const Coupon = lazy(() => import("../pages/admin/apps/Coupon"));
 
@@ -24,7 +25,7 @@ const Dashboard = lazy(() => import("../pages/admin/Dashboard"));
 const Products = lazy(() => import("../pages/admin/Products"));
 const Transaction = lazy(() => import("../pages/admin/Transaction"));
 
-export { Home, Search, Cart };
+export { Home, Search, Cart, Shipping };
 export { AdminLayout, Customers, Dashboard, Products, Transaction };
 export { Coupon };
 export { Barcharts, Linecharts, Piecharts };
