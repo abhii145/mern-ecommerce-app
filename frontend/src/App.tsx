@@ -18,6 +18,7 @@ import {
 } from "./pages";
 import { Suspense } from "react";
 import { Loader, UserLayout } from "./components";
+import ProductDetails from "./components/ProductDetails";
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/search" element={<Search />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
           </Route>
 
           {/* Admin Routes with Layout */}
