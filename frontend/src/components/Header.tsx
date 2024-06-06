@@ -108,7 +108,8 @@ const Header: React.FC = () => {
               Orders
             </Link>
             <button className="w-full text-red-600 hover:bg-red-100 px-4 py-2 rounded transition-colors duration-150 flex items-center justify-center">
-              <FaSignOutAlt className="mr-2" /> Logout
+              <FaSignOutAlt className="mr-2" />
+              <Link to="/authentication">Logout</Link>
             </button>
           </div>
         </div>
