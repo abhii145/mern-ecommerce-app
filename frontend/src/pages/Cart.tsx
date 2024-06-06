@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { VscError } from "react-icons/vsc";
 import CartItems from "../components/CartItems";
+import { Link } from "react-router-dom";
 
 const cartItem = [
   {
@@ -103,7 +104,7 @@ const Cart = () => {
           )}
 
           <button className="w-full mt-6 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300">
-            Proceed to Payment
+            <Link to="/shipping">Proceed to Payment</Link>
           </button>
         </aside>
       </main>
