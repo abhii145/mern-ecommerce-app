@@ -1,11 +1,21 @@
-import { newUser } from './../controllers/user';
+import { deleteUser, getUser, getallUsers, newUser } from './../controllers/user';
 import express from 'express';
 
 
 const app = express.Router();
 
 
-
+//route - /api/v1/user/new
 app.post("/new", newUser);
+
+
+//route - /api/v1/user/all
+app.get("/all", getallUsers);
+
+//route - /api/v1/user/id
+app.get("/:id", getUser);
+
+//route - /api/v1/user/id
+app.delete("/:id", deleteUser);
 
 export default app;
