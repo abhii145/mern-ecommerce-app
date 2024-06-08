@@ -8,4 +8,14 @@ interface NewUserRequestBody {
   dob: Date;
 }
 
+
+export interface BaseQuery {
+  title?: {
+    $regex: string;
+    $options: string;
+  };
+  price?: { $lte: number };
+  category?: string;
+}
+
 export{ NewUserRequestBody}
