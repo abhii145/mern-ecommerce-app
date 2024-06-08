@@ -8,7 +8,6 @@ interface NewUserRequestBody {
   dob: Date;
 }
 
-
 export interface BaseQuery {
   title?: {
     $regex: string;
@@ -18,4 +17,10 @@ export interface BaseQuery {
   category?: string;
 }
 
-export{ NewUserRequestBody}
+export interface InvalidatesCacheProps {
+  product?: boolean;
+  order?: boolean;
+  admin?: boolean;
+}
+
+export { NewUserRequestBody };
