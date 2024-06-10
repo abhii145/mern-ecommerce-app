@@ -17,6 +17,12 @@ const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const dialogRef = useRef<HTMLDivElement | null>(null);
 
+
+  const logOutHandler = () => {
+  setIsOpen(false);
+
+  }
+
   const handleClickOutside = (event: MouseEvent) => {
     if (
       dialogRef.current &&
@@ -37,7 +43,6 @@ const Header: React.FC = () => {
   return (
     <header className="bg-white shadow-md">
       <div className="container mx-auto px-4 flex items-center justify-between py-2">
-        {/* Logo */}
         <div className="flex items-center space-x-2">
           <Link to="/" className="text-2xl font-bold text-gray-800">
             Logo
@@ -86,7 +91,6 @@ const Header: React.FC = () => {
         </div>
       </div>
 
-      {/* Dialog for User Menu */}
       {isOpen && (
         <div
           ref={dialogRef}
@@ -109,7 +113,7 @@ const Header: React.FC = () => {
             </Link>
             <button className="w-full text-red-600 hover:bg-red-100 px-4 py-2 rounded transition-colors duration-150 flex items-center justify-center">
               <FaSignOutAlt className="mr-2" />
-              <Link to="/authentication">Logout</Link>
+              <Link to="/login">Logout</Link>
             </button>
           </div>
         </div>

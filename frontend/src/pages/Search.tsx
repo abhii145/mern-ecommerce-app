@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
+import { Loader } from "../components";
 
 const OfferPage: React.FC = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -21,7 +22,11 @@ const OfferPage: React.FC = () => {
       });
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return (
+    <div>
+      <Loader />
+    </div>
+  );
   if (error) return <div>{error}</div>;
 
   const toggleSidebar = () => {
@@ -111,7 +116,7 @@ const OfferPage: React.FC = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {products.map((product) => (
-            <Link to={`/product/${product.id}`} key={product.id}>
+            <Link to={`/product/${product?.id}`} key={product?.id}>
               <ProductCard product={product} />
             </Link>
           ))}
