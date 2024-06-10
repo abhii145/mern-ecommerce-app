@@ -1,5 +1,29 @@
 import { Request, Response } from "express";
 import { Coupon } from "../models/coupon";
+import { stripe } from "..";
+
+export const createPaymentIntent = async (req: Request, res: Response) => {
+  try {
+    const { amount } = req.body;
+
+    if (!amount) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Please provide amount" });
+    }
+
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: Number(amount * 100),
+      currency: "inr",
+    });
+
+    return res
+      .status(201)
+      .json({ success: true, clientSecret: paymentIntent.client_secret });
+  } catch (error: any) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
 
 export const newCoupon = async (req: Request, res: Response) => {
   try {
