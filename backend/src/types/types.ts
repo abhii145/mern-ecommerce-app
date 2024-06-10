@@ -1,4 +1,4 @@
-interface NewUserRequestBody {
+export interface NewUserRequestBody {
   _id: string;
   name: string;
   email: string;
@@ -21,6 +21,15 @@ export interface InvalidatesCacheProps {
   product?: boolean;
   order?: boolean;
   admin?: boolean;
+  userId?: string;
+  orderId?: string;
+  productId?: string | string[];
 }
 
-export { NewUserRequestBody };
+export type OrderItemType = {
+  name: string;
+  photo: string;
+  price: number;
+  quantity: number;
+  productId: string;
+};
