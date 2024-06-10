@@ -16,16 +16,19 @@ import {
   Piecharts,
   Search,
   Shipping,
-  Auth,
   Orders,
+  Login,
 } from "./pages";
+
 import { Suspense } from "react";
 import { Loader, UserLayout } from "./components";
 import ProductDetails from "./components/ProductDetails";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
     <Router>
+      <Toaster position="bottom-center" />
       <Suspense fallback={<Loader />}>
         <Routes>
           {/* Public Routes */}
@@ -34,8 +37,10 @@ const App = () => {
             <Route path="/cart" element={<Cart />} />
             <Route path="/search" element={<Search />} />
             <Route path="/product/:id" element={<ProductDetails />} />
-            <Route path="/authentication" element={<Auth />} />
+            {/* <Route path="/authentication" element={<Auth />} /> */}
           </Route>
+
+          <Route path="/login" element={<Login />} />
 
           {/* Not LoggedIn user Routes */}
           <Route path="/shipping" element={<Shipping />} />

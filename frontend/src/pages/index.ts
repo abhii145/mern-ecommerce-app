@@ -5,6 +5,7 @@ const Search = lazy(() => import("./Search"));
 const Cart = lazy(() => import("./Cart"));
 const Shipping = lazy(() => import("./Shipping"));
 const Auth = lazy(() => import("./Auth"));
+const Login = lazy(() => import("./Login"));
 const Orders = lazy(() => import("./Orders"));
 
 const Coupon = lazy(() => import("../pages/admin/apps/Coupon"));
@@ -27,7 +28,7 @@ const Dashboard = lazy(() => import("../pages/admin/Dashboard"));
 const Products = lazy(() => import("../pages/admin/Products"));
 const Transaction = lazy(() => import("../pages/admin/Transaction"));
 
-export { Home, Search, Cart, Shipping, Auth, Orders };
+export { Home, Search, Cart, Shipping, Auth, Orders, Login };
 export { AdminLayout, Customers, Dashboard, Products, Transaction };
 export { Coupon };
 export { Barcharts, Linecharts, Piecharts };

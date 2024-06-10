@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Loader } from ".";
 
 interface Product {
   id: number;
@@ -31,7 +33,7 @@ const ProductDetail: React.FC = () => {
       });
   }, [id]);
 
-  if (loading) return <div className="text-center">Loading...</div>;
+  if (loading) return <div className="text-center"><Loader/></div>;
   if (error) return <div className="text-center">{error}</div>;
 
   if (!product) return <div className="text-center">Product not found</div>;

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
 import { Link } from "react-router-dom";
+import { Loader } from "../components";
 
 interface Product {
   id: number;
@@ -27,7 +28,11 @@ const Home: React.FC = () => {
       });
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return (
+    <div>
+      <Loader />
+    </div>
+  );
   if (error) return <div>{error}</div>;
 
   return (
