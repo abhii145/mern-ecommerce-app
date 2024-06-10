@@ -1,15 +1,18 @@
 import express, { Request, Response } from "express";
 import connectToMongoDB from "./database/Db";
 import userRouter from "./routes/user";
+import orderRouter from "./routes/order";
 import dotenv from "dotenv";
 import productRouter from "./routes/product";
 import NodeCache from "node-cache";
+import morgan from "morgan";
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 app.use(express.json());
+app.use(morgan("dev"))
 
 export const myCache = new NodeCache();
 
@@ -18,8 +21,9 @@ export const myCache = new NodeCache();
 app.use("/api/v1/user", userRouter);
 app.use("/uploads", express.static("uploads"));
 app.use("/api/v1/product", productRouter);
+app.use("/api/v1/order", orderRouter);
 
 app.listen(PORT, async () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
   await connectToMongoDB();
+  console.log(`Server is running on port ${PORT}`);
 });

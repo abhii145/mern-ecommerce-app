@@ -1,11 +1,9 @@
-import { invalidatesCache } from './../utils/features';
+import { invalidatesCache } from "./../utils/features";
 import { BaseQuery } from "./../types/types";
 import { rm } from "fs";
 import { Product } from "./../models/product";
 import { Request, Response } from "express";
 import { myCache } from "..";
-
-
 
 export const getLatestProducts = async (req: Request, res: Response) => {
   try {
@@ -127,7 +125,7 @@ export const newProduct = async (req: Request, res: Response) => {
       photo: photo?.path,
     });
 
-    await invalidatesCache({ product: true });
+    await invalidatesCache({ product: true, admin: true });
 
     return res.status(201).json({ success: true, message: "Product created" });
   } catch (error) {
@@ -165,8 +163,11 @@ export const updateProductById = async (req: Request, res: Response) => {
     if (category) product.category = category;
 
     await product.save();
-        await invalidatesCache({ product: true });
-
+    await invalidatesCache({
+      product: true,
+      productId: String(product._id),
+      admin: true,
+    });
 
     return res.status(201).json({ success: true, message: "Product updated" });
   } catch (error) {
@@ -184,8 +185,12 @@ export const deleteProductById = async (req: Request, res: Response) => {
     }
 
     const product = await Product.findByIdAndDelete(id);
-        await invalidatesCache({ product: true });
 
+    await invalidatesCache({
+      product: true,
+      productId: String(product?._id),
+      admin: true,
+    });
 
     if (product?.photo) {
       rm(product.photo!, () => {
