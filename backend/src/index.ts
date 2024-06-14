@@ -10,6 +10,7 @@ import dotenv from "dotenv";
 import NodeCache from "node-cache";
 import morgan from "morgan";
 import Stripe from "stripe";
+import cors from "cors";
 
 dotenv.config();
 
@@ -17,6 +18,8 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(morgan("dev"));
+app.use(cors());
+
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 export const myCache = new NodeCache();
 

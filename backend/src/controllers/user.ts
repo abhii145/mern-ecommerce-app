@@ -13,7 +13,7 @@ export const newUser = async (req: Request, res: Response) => {
   if (existingUser)
     return res.status(200).json({
       success: true,
-      message: `Welcome, ${existingUser?.name}`,
+      message: `Welcome back, ${existingUser?.name}`,
     });
 
   if (!_id || !name || !email || !dob || !photo || !gender) {
@@ -31,7 +31,7 @@ export const newUser = async (req: Request, res: Response) => {
     });
     return res.status(200).json({
       success: true,
-      message: `Welcome user created and age is ${user.age}`,
+      message: `Welcome user created : ${user.name}`,
     });
   } catch (error) {
     res.status(500).json({ success: false, error: "Internal Server Error" });
