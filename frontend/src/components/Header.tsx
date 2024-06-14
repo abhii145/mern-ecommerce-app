@@ -7,13 +7,14 @@ import {
   FaUser,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { User } from "../types";
 
-const user = {
-  _id: 1,
-  role: "admin",
-};
 
-const Header: React.FC = () => {
+interface PropsType{
+  user: User | null;
+}
+
+const Header = ({user}:PropsType) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const dialogRef = useRef<HTMLDivElement | null>(null);
 
