@@ -19,13 +19,33 @@ import {
   Orders,
   Login,
 } from "./pages";
-
-import { Suspense } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { Suspense, useEffect } from "react";
 import { Loader, UserLayout } from "./components";
 import ProductDetails from "./components/ProductDetails";
 import { Toaster } from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { auth } from "./firebase";
+import { userExist, userNotExist } from "./redux/reducer/useReducer";
+import { getUser } from "./redux/api/userAPI";
+import { RootState } from "./redux/store";
 
 const App = () => {
+  const dispatch = useDispatch();
+  const { loading } = useSelector((state: RootState) => state.userReducer);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const data = await getUser(user.uid);
+        dispatch(userExist(data.user));
+      } else dispatch(userNotExist());
+    });
+  }, [dispatch]);
+
+  if (loading) return <Loader />;
+
+
   return (
     <Router>
       <Toaster position="bottom-center" />
