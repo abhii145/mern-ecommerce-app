@@ -1,15 +1,18 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { FcGoogle } from "react-icons/fc";
 import toast from "react-hot-toast";
 import { auth } from "../firebase";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { useLoginMutation } from "../redux/api/userAPI";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { MessageResponse } from "../types/userapi";
 
 const loginSchema = z.object({
   gender: z.enum(["male", "female"], {
-    errorMap: () => ({ message: "gender is required" }),
+    errorMap: () => ({ message: "Gender is required" }),
   }),
   dateOfBirth: z.coerce.date(),
 });
@@ -17,42 +20,61 @@ const loginSchema = z.object({
 type LoginFormInputs = z.infer<typeof loginSchema>;
 
 const Login = () => {
+  const [login] = useLoginMutation();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    control,
   } = useForm<LoginFormInputs>({
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = (data: LoginFormInputs) => {
-    console.log("Login Data:", data);
-  };
+  const gender = useWatch({ control, name: "gender" });
+  const dateOfBirth = useWatch({ control, name: "dateOfBirth" });
 
-  const loginHandler = async () => {
-    try {
-      const provider = new GoogleAuthProvider();
+ const loginHandler = async () => {
+   try {
+     const provider = new GoogleAuthProvider();
+     const { user } = await signInWithPopup(auth, provider);
 
-        const { user } = await signInWithPopup(auth, provider);
-          console.log({
-            name: user.displayName!,
-            email: user.email!,
-            photo: user.photoURL!,
-          });
+     if (!user) {
+       throw new Error("User not found");
+     }
 
-        toast.success("Sign In Success");
+     const userData = {
+       name: user.displayName!,
+       email: user.email!,
+       photo: user.photoURL!,
+       gender,
+       role: "user",
+       dob: dateOfBirth,
+       _id: user.uid,
+     };
 
-    } catch (error) {
-      toast.error("Sign In Fail");
-    }
-  };
+     console.log(userData);
+
+     const res = await login(userData);
+
+     if ("data" in res) {
+       toast.success(res.data.message);
+     } else {
+       const error = res.error as FetchBaseQueryError;
+       const message = (error.data as MessageResponse).message;
+       toast.error(message);
+     }
+   } catch (error) {
+     toast.error(error.message);
+   }
+ };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
       <main className="bg-white p-6 rounded-lg shadow-md w-full max-w-md mx-auto space-y-6">
         <h1 className="text-2xl font-bold text-center">Login</h1>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(() => {})} className="space-y-4">
           <div className="flex flex-col">
             <label htmlFor="gender" className="mb-2 font-medium">
               Gender
@@ -89,13 +111,6 @@ const Login = () => {
               <p className="text-red-500 mt-1">{errors.dateOfBirth.message}</p>
             )}
           </div>
-
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
-          >
-            Login
-          </button>
         </form>
 
         <div className="flex flex-col items-center space-y-2">
