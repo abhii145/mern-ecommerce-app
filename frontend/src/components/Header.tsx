@@ -8,6 +8,9 @@ import {
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { User } from "../types";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
+import toast from "react-hot-toast";
 
 
 interface PropsType{
@@ -19,8 +22,14 @@ const Header = ({user}:PropsType) => {
   const dialogRef = useRef<HTMLDivElement | null>(null);
 
 
-  const logOutHandler = () => {
-  setIsOpen(false);
+  const logOutHandler = async() => {
+  try {
+    await signOut(auth);
+    toast.success("Sign Out Successfully");
+    setIsOpen(false);
+  } catch (error) {
+    toast.error("Sign Out Fail");
+  }
 
   }
 
@@ -112,7 +121,10 @@ const Header = ({user}:PropsType) => {
             >
               Orders
             </Link>
-            <button className="w-full text-red-600 hover:bg-red-100 px-4 py-2 rounded transition-colors duration-150 flex items-center justify-center">
+            <button
+              className="w-full text-red-600 hover:bg-red-100 px-4 py-2 rounded transition-colors duration-150 flex items-center justify-center"
+              onClick={logOutHandler}
+            >
               <FaSignOutAlt className="mr-2" />
               <Link to="/login">Logout</Link>
             </button>
