@@ -4,6 +4,7 @@ import { rm } from "fs";
 import { Product } from "./../models/product";
 import { Request, Response } from "express";
 import { myCache } from "..";
+import { singleUpload } from "../middlewares/multer";
 
 export const getLatestProducts = async (req: Request, res: Response) => {
   try {
@@ -100,8 +101,7 @@ export const getSingleProduct = async (req: Request, res: Response) => {
 export const newProduct = async (req: Request, res: Response) => {
   try {
     const { title, price, category, stock } = req.body;
-
-    const photo = req.file;
+    const photo = req.file as Express.MulterS3.File;
 
     if (!photo) {
       return res
@@ -110,29 +110,32 @@ export const newProduct = async (req: Request, res: Response) => {
     }
 
     if (!title || !price || !category || !stock) {
-      rm(photo.path, () => {});
-
       return res
         .status(400)
         .json({ success: false, message: "All fields are required" });
     }
 
-    await Product.create({
+    const newProduct = await Product.create({
       title,
       price,
       category: category.toLowerCase(),
       stock,
-      photo: photo?.path,
+      photo: photo.location,
     });
 
     await invalidatesCache({ product: true, admin: true });
 
-    return res.status(201).json({ success: true, message: "Product created" });
-  } catch (error) {
-    console.error(error);
-    return res
-      .status(500)
-      .json({ success: false, message: "Internal Server Error" });
+    return res.status(201).json({
+      success: true,
+      message: "Product created",
+      product: newProduct,
+    });
+  } catch (error: any) {
+    console.error("Product creation error:", error);
+    return res.status(500).json({
+      success: false,
+      message: `Internal Server Error: ${error.message}`,
+    });
   }
 };
 
@@ -151,10 +154,7 @@ export const updateProductById = async (req: Request, res: Response) => {
     }
 
     if (photo) {
-      rm(product.photo!, () => {
-        console.log("Old Photo Deleted");
-      });
-      product.photo = photo.path;
+      product.photo = (photo as Express.MulterS3.File).location;
     }
 
     if (title) product.title = title;
