@@ -15,6 +15,10 @@ const schema = new Schema(
       type: Number,
       required: [true, "Price is required"],
     },
+    description: {
+      type: String,
+      required: [true, "Description is required"],
+    },
     stock: {
       type: Number,
       required: [true, "Stock is required"],

@@ -16,6 +16,7 @@ const CartItems = ({ id, title, price, image, quantity }: CartItemsProps) => {
         src={image}
         alt={title}
         className="w-24 h-24 object-contain rounded-lg"
+        loading="lazy"
       />
       <div className="ml-4 flex-1">
         <Link

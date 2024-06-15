@@ -18,7 +18,7 @@ const DashBoard = () => {
 
           <input type="search" placeholder="Search" />
           <FaRegBell />
-          <img src={userImg} alt="Profile" />
+          <img src={userImg} alt="Profile" loading="lazy" />
         </div>
 
         <section className="widget-container">

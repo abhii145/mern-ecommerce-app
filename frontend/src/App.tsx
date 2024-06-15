@@ -38,12 +38,14 @@ const App = () => {
     (state: RootState) => state.userReducer
   );
 
-  console.log(user);
+
+
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user: { uid: string; }) => {
       if (user) {
         const data = await getUser(user.uid);
+        console.log(data);
         dispatch(userExist(data.user));
       } else dispatch(userNotExist());
     });

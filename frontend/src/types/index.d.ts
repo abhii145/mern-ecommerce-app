@@ -37,6 +37,7 @@ declare type Product = {
   price: number;
   stock: number;
   category: string;
+  description: string;
   photo: string;
   _id: string;
 };
