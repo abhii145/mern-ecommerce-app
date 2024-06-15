@@ -27,7 +27,7 @@ export const getUser = async (id: string) => {
       `${import.meta.env.VITE_BACKENDSERVER_URL}/api/v1/user/${id}`
     );
     return data;
-  } catch (error: any) {
+  } catch (error) {
     throw new Error(error);
   }
 };

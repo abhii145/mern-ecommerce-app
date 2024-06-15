@@ -4,7 +4,6 @@ import { rm } from "fs";
 import { Product } from "./../models/product";
 import { Request, Response } from "express";
 import { myCache } from "..";
-import { singleUpload } from "../middlewares/multer";
 
 export const getLatestProducts = async (req: Request, res: Response) => {
   try {
@@ -100,7 +99,7 @@ export const getSingleProduct = async (req: Request, res: Response) => {
 
 export const newProduct = async (req: Request, res: Response) => {
   try {
-    const { title, price, category, stock } = req.body;
+    const { title, price, category, stock,description } = req.body;
     const photo = req.file as Express.MulterS3.File;
 
     if (!photo) {
@@ -120,6 +119,7 @@ export const newProduct = async (req: Request, res: Response) => {
       price,
       category: category.toLowerCase(),
       stock,
+      description,
       photo: photo.location,
     });
 
@@ -142,7 +142,7 @@ export const newProduct = async (req: Request, res: Response) => {
 export const updateProductById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { title, price, category, stock } = req.body;
+    const { title, price, category, stock, description } = req.body;
     const photo = req.file;
 
     const product = await Product.findById(id);
@@ -161,6 +161,7 @@ export const updateProductById = async (req: Request, res: Response) => {
     if (price) product.price = price;
     if (stock) product.stock = stock;
     if (category) product.category = category;
+   if (description) product.description = description;
 
     await product.save();
     await invalidatesCache({
@@ -211,7 +212,7 @@ export const deleteProductById = async (req: Request, res: Response) => {
 
 export const getAllProducts = async (req: Request, res: Response) => {
   try {
-    const { search, sort, category, price } = req.query;
+    const { search, sort, category, price, description } = req.query;
 
     const page = Number(req.query.page) || 1;
     const limit = Number(process.env.PRODUCT_PER_PAGE) || 8;
@@ -232,6 +233,10 @@ export const getAllProducts = async (req: Request, res: Response) => {
     if (typeof category === "string") {
       baseQuery.category = category;
     }
+
+     if (typeof description === "string") {
+       baseQuery.description = description;
+     }
 
     const productsPromise = Product.find(baseQuery)
       .sort(sort && { price: sort === "asc" ? 1 : -1 })

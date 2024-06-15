@@ -15,6 +15,7 @@ export interface BaseQuery {
   };
   price?: { $lte: number };
   category?: string;
+  description?: string;
 }
 
 export interface InvalidatesCacheProps {

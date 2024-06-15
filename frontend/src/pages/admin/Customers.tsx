@@ -51,6 +51,7 @@ const arr: Array<DataType> = [
         }}
         src={img}
         alt="Shoes"
+        loading="lazy"
       />
     ),
     name: "Emily Palmer",

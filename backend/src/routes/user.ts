@@ -16,7 +16,7 @@ app.post("/new", newUser);
 app.get("/all", adminOnly, getallUsers);
 
 //route - /api/v1/user/id
-app.get("/:id", adminOnly, getUser);
+app.get("/:id", getUser);
 
 //route - /api/v1/user/id
 app.delete("/:id", adminOnly, deleteUser);
