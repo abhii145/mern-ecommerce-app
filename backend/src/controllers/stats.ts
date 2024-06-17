@@ -381,8 +381,8 @@ export const getBarCharts = async (req: Request, res: Response) => {
 
     return res.status(200).json({
       success: true,
-        charts,
-      message:"Data fetched bar successfully"
+      charts,
+      message: "Data fetched bar successfully",
     });
   } catch (error: any) {
     return res.status(500).json({
