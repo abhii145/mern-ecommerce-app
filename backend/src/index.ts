@@ -11,7 +11,6 @@ import NodeCache from "node-cache";
 import morgan from "morgan";
 import Stripe from "stripe";
 import cors from "cors";
-import { singleUpload } from "./middlewares/multer";
 
 dotenv.config();
 
@@ -31,11 +30,6 @@ app.use("/api/v1/order", orderRouter);
 app.use("/api/v1/payment", paymentRouter);
 
 app.use("/api/v1/dashboard", dashBoardRouter);
-
-
-app.post("/upload", singleUpload, function (req, res, next) {
-  res.send("Successfully uploaded " + req.files + " files!");
-});
 
 app.listen(PORT, async () => {
   await connectToMongoDB();
